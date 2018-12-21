@@ -1,25 +1,51 @@
 package de.fhro.inf.prg3.a12.icndb;
 
+import de.fhro.inf.prg3.a12.model.JokeDto;
+import de.fhro.inf.prg3.a12.model.ResponseWrapper;
 import org.junit.jupiter.api.Test;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Peter Kurfer
  * Created on 12/28/17.
  */
-class JokesGeneratorTests {
+class JokesGeneratorTests
+{
 
     private JokeGenerator jokeGenerator = new JokeGenerator();
 
     @Test
-    void testRandomStream() {
-        /* timeout to ensure that stream does not loop forever */
-        /* TODO implement a test for the random joke stream */
+    void testRandomStream()
+    {
+        List<String> list = new LinkedList<>();
+
+        Stream<ResponseWrapper<JokeDto>> stream = jokeGenerator.randomJokesStream();
+        stream.limit(10).forEach(jk -> {
+            list.add(jk.getValue().toString());
+            System.out.println(jk.getValue().toString());
+        });
+
+        assertEquals(10, list.size());
     }
 
 
     @Test
-    void testJokesStream() {
-        /* TODO implement a test for the linear jokes generator */
+    void testJokesStream()
+    {
+        List<String> list = new LinkedList<>();
+
+        Stream<ResponseWrapper<JokeDto>> stream = jokeGenerator.jokesStream();
+        stream.limit(700).forEach(jk -> {
+            list.add(jk.getValue().toString());
+            System.out.println(jk.getValue().toString());
+        });
+
+        assertEquals(700, list.size());
     }
 
 }

@@ -6,22 +6,34 @@ import de.fhro.inf.prg3.a12.model.JokeDto;
 import de.fhro.inf.prg3.a12.model.ResponseWrapper;
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.util.concurrent.ExecutionException;
+import java.util.function.Supplier;
+
 /**
  * @author Peter Kurfer
  */
 
-public final class RandomJokeSupplier {
+public final class RandomJokeSupplier implements Supplier<ResponseWrapper<JokeDto>>
+{
 
     /* ICNDB API proxy to retrieve jokes */
     private final ICNDBApi icndbApi;
 
-    public RandomJokeSupplier() {
+    public RandomJokeSupplier()
+    {
         icndbApi = ICNDBService.getInstance();
     }
 
-    public ResponseWrapper<JokeDto> get() {
-        /* TODO fetch a random joke synchronously
-         * if an exception occurs return null */
-        throw new NotImplementedException("Method `get()` is not implemented");
+    public ResponseWrapper<JokeDto> get()
+    {
+        try
+        {
+            return icndbApi.getRandomJoke().get();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
